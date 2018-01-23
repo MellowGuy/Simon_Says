@@ -1,10 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
+
+//			  _________.__                          _________
+//			 /   _____/|__| _____   ____   ____    /   _____/____  ___.__. ______
+//			 \_____  \ |  |/     \ /  _ \ /    \   \_____  \\__  \<   |  |/  ___/
+//			 /        \|  |  Y Y  (  <_> )   |  \  /        \/ __ \\___  |\___ \ 
+//			/_______  /|__|__|_|  /\____/|___|  / /_______  (____  / ____/____  >
+// 				    \/          \/            \/          \/     \/\/         \/ 
+//	
+//Simon Says game as console app by Tyler Thompson
+
 
 
 namespace Simon_Says
@@ -19,7 +24,6 @@ namespace Simon_Says
 			int numToMem;
 			int sequenceIndex;
 			Arrows[] randomSequence;
-			Arrows[] attemptSequence;
 			ConsoleKeyInfo keyPressed;
 
 			//Start
@@ -49,20 +53,22 @@ namespace Simon_Says
 
 			
 
-			//Do-While loop to read each key and display it.
-			/***********************needs work***************/
+			//Do-While loop to read arrow key pressed and display it.
+			/***********************needs work**********************/
 			sequenceIndex = 0;
 			do
 			{ 
 				keyPressed = Console.ReadKey();
 
-
 				DisplayArrow(ProcessKeyToArrow(keyPressed.Key));
-
+				
 			} while (keyPressed.Key != ConsoleKey.Escape || 
 					  sequenceIndex != randomSequence.Length);
 
 
+
+
+			//End
 			Console.Read();
 		}
 
@@ -180,75 +186,6 @@ namespace Simon_Says
 					break;
 			}
 			Console.ForegroundColor = ConsoleColor.Gray;
-		}
-
-		private static void KeyViewer()
-		{
-			ConsoleKeyInfo input;
-			do
-			{
-				Console.WriteLine("Press a key, together with Alt, Ctrl, or Shift.");
-				Console.WriteLine("Press Esc to exit.");
-				input = Console.ReadKey(true);
-
-				StringBuilder output = new StringBuilder(
-							  String.Format("You pressed {0}", input.Key.ToString()));
-				bool modifiers = false;
-
-				if ((input.Modifiers & ConsoleModifiers.Alt) == ConsoleModifiers.Alt)
-				{
-					output.Append(", together with " + ConsoleModifiers.Alt.ToString());
-					modifiers = true;
-				}
-				if ((input.Modifiers & ConsoleModifiers.Control) == ConsoleModifiers.Control)
-				{
-					if (modifiers)
-					{
-						output.Append(" and ");
-					}
-					else
-					{
-						output.Append(", together with ");
-						modifiers = true;
-					}
-					output.Append(ConsoleModifiers.Control.ToString());
-				}
-				if ((input.Modifiers & ConsoleModifiers.Shift) == ConsoleModifiers.Shift)
-				{
-					if (modifiers)
-					{
-						output.Append(" and ");
-					}
-					else
-					{
-						output.Append(", together with ");
-						modifiers = true;
-					}
-					output.Append(ConsoleModifiers.Shift.ToString());
-				}
-				output.Append(".");
-				Console.WriteLine(output.ToString());
-				Console.WriteLine();
-			} while (input.Key != ConsoleKey.Escape);
-		}
-
-		private static void KeyChecker()
-		{
-			ConsoleKeyInfo cki;
-			// Prevent example from ending if CTL+C is pressed.
-			Console.TreatControlCAsInput = true;
-
-			Console.WriteLine("Press any combination of CTL, ALT, and SHIFT, and a console key.");
-			Console.WriteLine("Press the Escape (Esc) key to quit: \n");
-			do
-			{
-				cki = Console.ReadKey();
-				Console.Write(" --- You pressed ");
-				if ((cki.Modifiers & ConsoleModifiers.Alt) != 0) Console.Write("ALT+");
-				if ((cki.Modifiers & ConsoleModifiers.Shift) != 0) Console.Write("SHIFT+");
-				if ((cki.Modifiers & ConsoleModifiers.Control) != 0) Console.Write("CTL+");
-				Console.WriteLine(cki.Key.ToString());
-			} while (cki.Key != ConsoleKey.Escape);
 		}
 	}
 }
