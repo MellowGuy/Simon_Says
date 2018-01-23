@@ -1,0 +1,7 @@
+C:\Users\Tyler\Documents\Visual Studio 2017\Projects\Simon_Says\Simon_Says\bin\Debug\Simon_Says.exe.config
+C:\Users\Tyler\Documents\Visual Studio 2017\Projects\Simon_Says\Simon_Says\bin\Debug\Simon_Says.exe
+C:\Users\Tyler\Documents\Visual Studio 2017\Projects\Simon_Says\Simon_Says\bin\Debug\Simon_Says.pdb
+C:\Users\Tyler\Documents\Visual Studio 2017\Projects\Simon_Says\Simon_Says\obj\Debug\Simon_Says.csprojResolveAssemblyReference.cache
+C:\Users\Tyler\Documents\Visual Studio 2017\Projects\Simon_Says\Simon_Says\obj\Debug\Simon_Says.csproj.CoreCompileInputs.cache
+C:\Users\Tyler\Documents\Visual Studio 2017\Projects\Simon_Says\Simon_Says\obj\Debug\Simon_Says.exe
+C:\Users\Tyler\Documents\Visual Studio 2017\Projects\Simon_Says\Simon_Says\obj\Debug\Simon_Says.pdb
