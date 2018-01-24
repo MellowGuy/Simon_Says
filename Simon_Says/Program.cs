@@ -10,64 +10,146 @@ using System.Threading;
 //Simon Says game as console app by Tyler Thompson
 
 
-
 namespace Simon_Says
 {
 	class Program
 	{
 		enum Arrows { Up, Down, Left, Right, None };
-		
+
 		static void Main(string[] args)
 		{
 			int numToMem;
 			int sequenceIndex;
 			Arrows[] randomSequence;
+			Arrows[] attemptSequence;
 			ConsoleKeyInfo keyPressed;
 
 			//Start
 			WelcomeScreen();
-			Console.Clear();		
-
-			//User types in number to remember
-			Console.Write("How many do you want to memorize? ");
-			numToMem = Convert.ToInt32(Console.ReadLine());
-			Console.Clear();
-			Console.WriteLine("Simon says to memorize the followng {0} arrows", numToMem);
-			Console.WriteLine("\nPress any key when you're ready...");
-			Console.ReadKey();
-
-			//Gets list of random arrows based on number given
-			randomSequence = GetRandomArrows(numToMem);
-
-			//Displays the random sequence of arrows to memorize
-			foreach (var item in randomSequence)
-			{
-				FlashArrow(item);
-			}
-
-			Console.Clear();
-			Console.WriteLine("Did you catch those? Simon wants to know." +
-				"\nPress the arrows in that order.");
-
 			
-
-			//Do-While loop to read arrow key pressed and display it.
-			/***********************needs work**********************/
-			sequenceIndex = 0;
 			do
-			{ 
+			{
+				Console.Clear();
+
+				//User types in number to remember
+				Console.Write("How many do you want to memorize? ");
+				numToMem = Convert.ToInt32(Console.ReadLine());
+
+				//Gets number from user of how many arross to memorize.
+				Console.Clear();
+				Console.WriteLine("Simon says to memorize the followng {0} arrows", numToMem);
+				Console.WriteLine("\nPress any key when you're ready...");
+				Console.ReadKey();
+
+				//Gets list of random arrows based on number given
+				randomSequence = GetRandomArrows(numToMem);
+
+				//Displays the random sequence of arrows to memorize
+				foreach (var item in randomSequence)
+				{
+					FlashArrow(item);
+				}
+
+				Console.Clear();
+				Console.WriteLine("Did you catch those? Simon wants to know." +
+					"\nPress the arrows in that order.");
+
+				//Creates new Arrows array size of number given. 
+				attemptSequence = new Arrows[numToMem];
+
+				//Performs a do-while loop to get arrow keys pressed and put them into the 
+				//array. If key pressed is not an arrow, says so then skips it. 
+				sequenceIndex = 0;
+				do
+				{
+					keyPressed = Console.ReadKey();
+
+					DisplayArrow(ProcessKeyToArrow(keyPressed.Key));
+
+					if (ProcessKeyToArrow(keyPressed.Key) == Arrows.None)
+						continue;
+
+					attemptSequence[sequenceIndex] = ProcessKeyToArrow(keyPressed.Key);
+
+					sequenceIndex++;
+
+				} while (sequenceIndex != randomSequence.Length);
+
+				//Uses CheckIsCorrect method to compare sequences, then prints win/lose.
+				FinishScreen(CheckIsCorrect(randomSequence, attemptSequence));
+
+				Console.WriteLine("Press enter to try again or Esc to exit");
 				keyPressed = Console.ReadKey();
 
-				DisplayArrow(ProcessKeyToArrow(keyPressed.Key));
+				if (keyPressed.Key == ConsoleKey.Escape)
+					break;
 				
-			} while (keyPressed.Key != ConsoleKey.Escape || 
-					  sequenceIndex != randomSequence.Length);
+				else if (keyPressed.Key == ConsoleKey.Enter)
+					continue;
 
-
-
+			} while (keyPressed.Key != ConsoleKey.Escape);
 
 			//End
-			Console.Read();
+		}
+
+		//Splash screen
+		private static void WelcomeScreen()
+		{
+			Console.WriteLine("<<<<<WELCOME TO SIMON SAYS>>>>>");
+			DisplayArrow(Arrows.Up);
+			DisplayArrow(Arrows.Down);
+			DisplayArrow(Arrows.Left);
+			DisplayArrow(Arrows.Right);
+			Thread.Sleep(1000);
+			Console.WriteLine("Press any key to continue...");
+			Console.ReadKey();
+		}
+
+		//Take bool param. If true shows won if false shows lost.
+		private static void FinishScreen(bool hasWon)
+		{
+			Console.WriteLine("Simon says...");
+			Thread.Sleep(2000);
+			if (hasWon)
+			{
+				Console.ForegroundColor = ConsoleColor.Green;
+				Console.WriteLine(@"
+				       *
+				      *
+				*    *
+				 *  *
+				  *");
+				Thread.Sleep(500);
+				Console.WriteLine("Congratulations! You've Won!");
+			}
+			else
+			{
+				Console.ForegroundColor = ConsoleColor.Red;
+				Console.WriteLine(@"
+				*     *
+				 *   *
+				   *
+				 *   *
+				*     *");
+				Thread.Sleep(500);
+				Console.WriteLine("Sorry you lost!");
+			}
+			Console.ForegroundColor = ConsoleColor.Gray;
+			Thread.Sleep(1000);
+		}
+
+		//Takes randomSequence and attemptSequence arrays and compares all items to
+		//if they match and if not returns false. Otherwise if match, return true.
+		private static bool CheckIsCorrect(Arrows[] random, Arrows[] attempt)
+		{
+			for (int i = 0; i < random.Length; i++)
+			{
+				if (random[i] != attempt[i])
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		//Method that takes the keyboard key pressed as param and 
@@ -90,20 +172,7 @@ namespace Simon_Says
 			return Arrows.None;
 		}
 
-		//Splash screen
-		private static void WelcomeScreen()
-		{
-			Console.WriteLine("<<<<<WELCOME TO SIMON SAYS>>>>>");
-			DisplayArrow(Arrows.Up);
-			DisplayArrow(Arrows.Down);
-			DisplayArrow(Arrows.Left);
-			DisplayArrow(Arrows.Right);
-			Thread.Sleep(1500);
-			Console.WriteLine("Press any key to continue...");
-			Console.ReadKey();
-		}
-
-		//Generates and returns a list of arrows the size of given param
+		//Generates and returns a list of arrows the size of given param.
 		//Arrows generated with random numbers cast to Arrows enum.
 		private static Arrows[] GetRandomArrows(int num)
 		{
@@ -141,7 +210,6 @@ namespace Simon_Says
 					  ***
 					 *****
 					*******");
-
 					break;
 
 				case Arrows.Down:
