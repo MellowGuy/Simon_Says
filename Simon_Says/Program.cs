@@ -18,7 +18,6 @@ namespace Simon_Says
 	{
 		enum Arrows { Up, Down, Left, Right, None };
 		
-
 		static void Main(string[] args)
 		{
 			int numToMem;
@@ -106,7 +105,7 @@ namespace Simon_Says
 		}
 
 		//Generates and returns a list of arrows the size of given param
-		//Arrows generated with random numbers cast to Arrows
+		//Arrows generated with random numbers cast to Arrows enum.
 		private static Arrows[] GetRandomArrows(int num)
 		{
 			Arrows[] randomArrows = new Arrows[num];
