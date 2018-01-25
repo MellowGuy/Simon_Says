@@ -18,7 +18,7 @@ namespace Simon_Says
 
 		static void Main(string[] args)
 		{
-			int numToMem = 0;
+			int numToMem;
 			int sequenceIndex;
 			Arrows[] randomSequence;
 			Arrows[] attemptSequence;
@@ -26,11 +26,11 @@ namespace Simon_Says
 
 			//Start
 			WelcomeScreen();
-			
+
 			do
 			{
 				Console.Clear();
-
+				numToMem = 0;
 				//Handles player input of how many to memorize, checks if valid numer,
 				//then if number is greater than zero before continuing.
 				while (numToMem < 1)
@@ -38,7 +38,7 @@ namespace Simon_Says
 					Console.Write("How many do you want to memorize? ");
 
 					string line = Console.ReadLine();
-				
+
 					if (int.TryParse(line, out numToMem))
 					{
 						if (numToMem == 0)
@@ -50,7 +50,7 @@ namespace Simon_Says
 					}
 					else
 					{
-						Console.WriteLine("******Invalid input******" + 
+						Console.WriteLine("******Invalid input******" +
 							"\nPlease enter a number greater than zero.\n");
 						continue;
 					}
@@ -71,9 +71,11 @@ namespace Simon_Says
 
 				Console.Clear();
 				Console.WriteLine("Did you catch those? Simon wants to know." +
-					"\nPress the arrows in that order.");
+					"\nPress Enter to continue...");
+				Console.ReadLine();
+				Console.WriteLine("\nPress the arrows in that order.");
 
-				//Creates new Arrows array size of number given. 
+				//Creates new Arrows array the size of number given. 
 				attemptSequence = new Arrows[numToMem];
 
 				//Performs a do-while loop to get arrow keys pressed and put them into the 
@@ -97,15 +99,12 @@ namespace Simon_Says
 				//Uses CheckIsCorrect method to compare sequences, then prints win/lose.
 				FinishScreen(CheckIsCorrect(randomSequence, attemptSequence));
 
-				Console.WriteLine("Press enter to try again or Esc to exit");
+				Console.WriteLine("Press any key to try again or Esc to exit");
 				keyPressed = Console.ReadKey();
 
-				//Checks key pressed if enter, restarts game, else if Esc quits.
+				//Checks key pressed if Esc quits, else plays again.
 				if (keyPressed.Key == ConsoleKey.Escape)
 					break;
-				
-				else if (keyPressed.Key == ConsoleKey.Enter)
-					continue;
 
 			} while (keyPressed.Key != ConsoleKey.Escape);
 
