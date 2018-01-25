@@ -18,7 +18,7 @@ namespace Simon_Says
 
 		static void Main(string[] args)
 		{
-			int numToMem;
+			int numToMem = 0;
 			int sequenceIndex;
 			Arrows[] randomSequence;
 			Arrows[] attemptSequence;
@@ -31,9 +31,30 @@ namespace Simon_Says
 			{
 				Console.Clear();
 
-				//User types in number to remember
-				Console.Write("How many do you want to memorize? ");
-				numToMem = Convert.ToInt32(Console.ReadLine());
+				//Handles player input of how many to memorize, checks if valid numer,
+				//then if number is greater than zero before continuing.
+				while (numToMem < 1)
+				{
+					Console.Write("How many do you want to memorize? ");
+
+					string line = Console.ReadLine();
+				
+					if (int.TryParse(line, out numToMem))
+					{
+						if (numToMem == 0)
+						{
+							Console.WriteLine("Must be more than zero. Try again.\n");
+							continue;
+						}
+						break;
+					}
+					else
+					{
+						Console.WriteLine("******Invalid input******" + 
+							"\nPlease enter a number greater than zero.\n");
+						continue;
+					}
+				}
 
 				//Gets number from user of how many arross to memorize.
 				Console.Clear();
@@ -46,9 +67,7 @@ namespace Simon_Says
 
 				//Displays the random sequence of arrows to memorize
 				foreach (var item in randomSequence)
-				{
 					FlashArrow(item);
-				}
 
 				Console.Clear();
 				Console.WriteLine("Did you catch those? Simon wants to know." +
@@ -81,6 +100,7 @@ namespace Simon_Says
 				Console.WriteLine("Press enter to try again or Esc to exit");
 				keyPressed = Console.ReadKey();
 
+				//Checks key pressed if enter, restarts game, else if Esc quits.
 				if (keyPressed.Key == ConsoleKey.Escape)
 					break;
 				
@@ -139,15 +159,13 @@ namespace Simon_Says
 		}
 
 		//Takes randomSequence and attemptSequence arrays and compares all items to
-		//if they match and if not returns false. Otherwise if match, return true.
+		//if they match. If not, returns false. Otherwise if match, return true.
 		private static bool CheckIsCorrect(Arrows[] random, Arrows[] attempt)
 		{
 			for (int i = 0; i < random.Length; i++)
 			{
 				if (random[i] != attempt[i])
-				{
 					return false;
-				}
 			}
 			return true;
 		}
@@ -186,8 +204,8 @@ namespace Simon_Says
 			return randomArrows;
 		}
 
-		//Takes Arrows enum as parameter. Clears console, 
-		//calls DisplayArrow on given arrow and waits 1 sec
+		//Takes Arrows enum as parameter. Clears console, waits 1 sec,
+		//then calls DisplayArrow on given arrow and waits 1 sec
 		private static void FlashArrow(Arrows arrow)
 		{
 			Console.Clear();
